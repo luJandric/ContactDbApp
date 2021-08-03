@@ -22,7 +22,7 @@ namespace ContactDbLib
         }
 
 
-         public static int ReadContact(int id)
+         public static string ReadContact(int id)
         {
             string connectionString =
                 @"Server = (localdb)\MSSQLLocalDB; " +
@@ -33,8 +33,9 @@ namespace ContactDbLib
             SqlCommand command = connection.CreateCommand();
 
             command.CommandText =
-                "SELECT *; " +
-                "WHERE Contact.ID = @ID ";
+                "SELECT * " +
+                "FROM Contact " +
+                "WHERE Contact.ID = @ID;";
             command.Parameters.AddWithValue("@ID", id);
 
             try
@@ -49,7 +50,7 @@ namespace ContactDbLib
                 Console.WriteLine(e.Message);
             }
 
-            return id;
+            return //alt mulig rart;
         }
     }
 }
