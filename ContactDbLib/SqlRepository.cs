@@ -18,7 +18,13 @@ namespace ContactDbLib
 
             command.CommandText =
                 "INSERT INTO Contact; " +
-                "VALUES {}(";
+                $"VALUES (@ssn, @firstName, @lastName);";
+            command.Parameters.AddWithValue("@ssn", ssn);
+            command.Parameters.AddWithValue("@firstName", firstName);
+            command.Parameters.AddWithValue("@lastName", lastName);
+
+            // Debug-info: to see generated SQL. 
+            Console.WriteLine($"\nAdded: {command.CommandText}");
         }
     }
 }
