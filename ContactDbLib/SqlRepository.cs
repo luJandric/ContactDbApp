@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Channels;
 using Microsoft.Data.SqlClient;
 
 
@@ -24,11 +25,20 @@ namespace ContactDbLib
             command.Parameters.AddWithValue("@lastName", lastName);
 
             // Debug-info: to see generated SQL. 
-            Console.WriteLine($"\nAdded: {command.CommandText}");
+            Console.WriteLine($"\nAdded: {ssn}, {firstName}, {lastName}");
+            try
+            {
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
-
-         public static string ReadContact(int id)
+        //TODO: Temporary void, change to string once done.
+         public static void ReadContact(int id)
         {
             string connectionString =
                 @"Server = (localdb)\MSSQLLocalDB; " +
@@ -56,7 +66,7 @@ namespace ContactDbLib
                 Console.WriteLine(e.Message);
             }
 
-            return //alt mulig rart;
-        }
+            //return //alt mulig rart;
+         } 
     }
 }
