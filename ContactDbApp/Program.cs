@@ -8,7 +8,7 @@ namespace ContactDbApp
     {
         static void Main(string[] args)
         {
-            SqlRepository.CreateContact("14957730719", "Reginald", "Christ");
+            
         }
     }
 }

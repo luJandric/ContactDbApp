@@ -7,8 +7,9 @@ namespace ContactDbLib
 {
     public static class SqlRepository
     {
-        public static void CreateContact(string ssn, string firstName, string lastName)
+        public static int CreateContact(string ssn, string firstName, string lastName)
         {
+            int indentityId = 0;
             string connectionString =
                 @"Server = (localdb)\MSSQLLocalDB; " +
                 "Database = ContactDb; " +
@@ -18,23 +19,29 @@ namespace ContactDbLib
             SqlCommand command = connection.CreateCommand();
 
             command.CommandText =
-                "INSERT INTO Contact; " +
-                $"VALUES (@ssn, @firstName, @lastName);";
+                "INSERT INTO Contact " +
+                $"VALUES (@ssn, @firstName, @lastName)" +
+                $"SELECT SCOPE_IDENTITY() as IdentityId; ";
             command.Parameters.AddWithValue("@ssn", ssn);
             command.Parameters.AddWithValue("@firstName", firstName);
             command.Parameters.AddWithValue("@lastName", lastName);
 
-            // Debug-info: to see generated SQL. 
-            Console.WriteLine($"\nAdded: {ssn}, {firstName}, {lastName}");
             try
             {
                 connection.Open();
-                command.ExecuteNonQuery();
+                using SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    indentityId = (int) (decimal) reader["IdentityID"];
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
+
+            connection.Close();
+            return indentityId;
         }
 
 
