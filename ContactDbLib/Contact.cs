@@ -9,31 +9,31 @@ namespace ContactDbLib
         private string _firstName;
         private string _lastName;
 
-        public int id
+        public int Id
         {
-            get => id;
-            set => _id = id;
+            get => Id;
+            set => _id = Id;
         }
 
-        public string ssn
+        public string Ssn
         {
-            get => ssn;
+            get => Ssn;
 
-            set => _ssn = ssn;
+            set => _ssn = Ssn;
         }
 
-        public string firstName
+        public string FirstName
         {
-            get => firstName;
+            get => FirstName;
 
-            set => _firstName = firstName;
+            set => _firstName = FirstName;
         }
 
-        public string lastName
+        public string LastName
         {
-            get => lastName;
+            get => LastName;
 
-            set => _lastName = lastName;
+            set => _lastName = LastName;
         }
     }
 }
