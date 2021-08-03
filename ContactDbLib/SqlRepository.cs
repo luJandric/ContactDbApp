@@ -37,8 +37,8 @@ namespace ContactDbLib
             }
         }
 
-        //TODO: Temporary void, change to string once done.
-         public static void ReadContact(int id)
+
+         public static Contact ReadContact(int id)
         {
             string connectionString =
                 @"Server = (localdb)\MSSQLLocalDB; " +
@@ -54,19 +54,25 @@ namespace ContactDbLib
                 "WHERE Contact.ID = @ID;";
             command.Parameters.AddWithValue("@ID", id);
 
-            try
-            {
+            Contact contact = new Contact();
+
+            try {
                 connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
+                contact.ssn = reader.GetName(0);
+                contact.firstName = reader.GetName(1);
+                contact.lastName = reader.GetName(2);
 
-                Console.WriteLine($"You're looking for : {id}");
+                //Console.WriteLine($"{reader.GetName(0)} {reader.GetName(1)} {reader.GetName(2)}");
+                //Console.WriteLine($"You're looking for : {id}");
+
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
 
-            //return //alt mulig rart;
-         } 
+            return contact;
+        }
     }
 }
