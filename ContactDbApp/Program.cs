@@ -1,4 +1,5 @@
 ﻿using System;
+using ContactDbLib;
 
 
 namespace ContactDbApp
@@ -7,7 +8,7 @@ namespace ContactDbApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            SqlRepository.ReadContact(3);
         }
     }
 }
