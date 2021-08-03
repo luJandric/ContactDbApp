@@ -8,7 +8,17 @@ namespace ContactDbLib
     {
         static void CreateContact(string ssn, string firstName, string lastName)
         {
-            // Currently Empty
+            string connectionString =
+                @"Server = (localdb)\MSSQLLocalDB; " +
+                "Database = ContactDb; " +
+                "Integrated Security = true";
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = connection.CreateCommand();
+
+            command.CommandText =
+                "INSERT INTO Contact; " +
+                "VALUES {}(";
         }
     }
 }
