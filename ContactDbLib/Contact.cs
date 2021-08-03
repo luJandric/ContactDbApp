@@ -4,36 +4,36 @@ namespace ContactDbLib
 {
     public class Contact
     {
-        private int _ID;
-        private string _SSN;
-        private string _FirstName;
-        private string _LastName;
+        private int _id;
+        private string _ssn;
+        private string _firstName;
+        private string _lastName;
 
-        public int ID
+        public int id
         {
-            get => ID;
-            set => _ID = ID;
+            get => id;
+            set => _id = id;
         }
 
-        public string SSN
+        public string ssn
         {
-            get => SSN;
+            get => ssn;
 
-            set => _SSN = SSN;
+            set => _ssn = ssn;
         }
 
-        public string FirstName
+        public string firstName
         {
-            get => FirstName;
+            get => firstName;
 
-            set => _FirstName = FirstName;
+            set => _firstName = firstName;
         }
 
-        public string LastName
+        public string lastName
         {
-            get => LastName;
+            get => lastName;
 
-            set => _LastName = LastName;
+            set => _lastName = lastName;
         }
     }
 }
