@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Channels;
 using Microsoft.Data.SqlClient;
 
 
@@ -24,7 +25,16 @@ namespace ContactDbLib
             command.Parameters.AddWithValue("@LastName", lastName);
 
             // Debug-info: to see generated SQL. 
-            Console.WriteLine($"\nAdded: {command.CommandText}");
+            Console.WriteLine($"\nAdded: {ssn}, {firstName}, {lastName}");
+            try
+            {
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
 
