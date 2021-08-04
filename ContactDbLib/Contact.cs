@@ -4,36 +4,30 @@ namespace ContactDbLib
 {
     public class Contact
     {
-        private int _id;
-        private string _ssn;
-        private string _firstName;
-        private string _lastName;
-
-        public int Id
+        public Contact(int id, string ssn, string firstName, string lastName)
         {
-            get => Id;
-            set => _id = Id;
+            Id = id;
+            Ssn = ssn;
+            FirstName = firstName;
+            LastName = lastName;
         }
 
-        public string Ssn
+        public Contact()
         {
-            get => Ssn;
-
-            set => _ssn = Ssn;
+            // Empty on purpose
         }
 
-        public string FirstName
+        public int Id { get; set; }
+
+        public string Ssn { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public override string ToString()
         {
-            get => FirstName;
-
-            set => _firstName = FirstName;
-        }
-
-        public string LastName
-        {
-            get => LastName;
-
-            set => _lastName = LastName;
+            return String.Format("ID: {0}\nSSN: {1}\nFirstName: {2}\nLastName: {3}", Id, Ssn, FirstName, LastName);
         }
     }
 }
