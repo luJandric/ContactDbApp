@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Channels;
 using Microsoft.Data.SqlClient;
+using Microsoft.Identity.Client;
 
 
 namespace ContactDbLib
@@ -136,6 +137,53 @@ namespace ContactDbLib
                 Console.WriteLine(e.Message);
                 return false;
             }
+        }
+
+        public static List<Contact> ReadAllContacts()
+        {
+            List<Contact> list = new List<Contact>();
+
+            using SqlConnection connection = new(ConnectionString);
+            SqlCommand command = connection.CreateCommand();
+
+
+            command.CommandText =
+                "SELECT * " +
+                "FROM Contact; ";
+
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Contact contact = new Contact();
+                    contact.Id = (int)reader["ID"];
+                    contact.Ssn = reader["SSN"].ToString();
+                    contact.FirstName = reader["FirstName"].ToString();
+                    contact.LastName = reader["LastName"].ToString();
+                    list.Add(contact);
+                }
+                reader.Close(); 
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return list;
+
+        }
+
+        public static void PrintAllContacts()
+        {
+            foreach (var i in SqlRepository.ReadAllContacts())
+            {
+                Console.WriteLine(i.ToString());
+                Console.WriteLine("------------------------------------\n");
+            }
+
         }
     }
 }

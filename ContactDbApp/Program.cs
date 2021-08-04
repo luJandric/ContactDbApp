@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ContactDbLib;
 
 
@@ -8,9 +9,7 @@ namespace ContactDbApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(SqlRepository.ReadContact(2));
-            SqlRepository.UpdateContact(2, "34225167225", "Jimmyy", "Jånes");
-            Console.WriteLine(SqlRepository.ReadContact(2));
+            SqlRepository.PrintAllContacts();
         }
     }
 }
