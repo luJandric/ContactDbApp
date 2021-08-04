@@ -7,17 +7,16 @@ namespace ContactDbLib
 {
     public static class SqlRepository
     {
+        const string ConnectionString =
+            @"Server = (localdb)\MSSQLLocalDB; " +
+            "Database = ContactDb; " +
+            "Integrated Security = true";
 
         public static int CreateContact(string ssn, string firstName, string lastName)
         {
             int indentityId = 0;
 
-            string connectionString =
-                @"Server = (localdb)\MSSQLLocalDB; " +
-                "Database = ContactDb; " +
-                "Integrated Security = true";
-
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             SqlCommand command = connection.CreateCommand();
 
             command.CommandText =
@@ -49,12 +48,8 @@ namespace ContactDbLib
 
         public static Contact ReadContact(int id)
         {
-            string connectionString =
-                @"Server = (localdb)\MSSQLLocalDB; " +
-                "Database = ContactDb; " +
-                "Integrated Security = true";
 
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             SqlCommand command = connection.CreateCommand();
 
             command.CommandText =
@@ -90,12 +85,8 @@ namespace ContactDbLib
 
         public static bool UpdateContact(int id, string ssn, string firstName, string lastName)
         {
-            string connectionString =
-                @"Server = (localdb)\MSSQLLocalDB; " +
-                "Database = ContactDb; " +
-                "Integrated Security = true";
 
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             SqlCommand command = connection.CreateCommand();
 
             command.CommandText = "UPDATE Contact " +
@@ -123,12 +114,8 @@ namespace ContactDbLib
 
         public static bool DeleteContact(int id)
         {
-            string connectionString =
-                @"Server = (localdb)\MSSQLLocalDB; " +
-                "Database = ContactDb; " +
-                "Integrated Security = true";
 
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(ConnectionString);
             SqlCommand command = connection.CreateCommand();
 
             command.CommandText =
