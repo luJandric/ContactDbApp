@@ -21,7 +21,7 @@ namespace ContactDbLib
             command.CommandText =
                 "INSERT INTO Contact " +
                 $"VALUES (@ssn, @firstName, @lastName)" +
-                $"SELECT SCOPE_IDENTITY() as IdentityId; ";
+                $"SELECT SCOPE_IDENTITY() as IdentityId;";
             command.Parameters.AddWithValue("@ssn", ssn);
             command.Parameters.AddWithValue("@firstName", firstName);
             command.Parameters.AddWithValue("@lastName", lastName);
@@ -74,6 +74,7 @@ namespace ContactDbLib
                     contact.FirstName = reader["FirstName"].ToString();
                     contact.LastName = reader["LastName"].ToString();
                 }
+                reader.Close(); //Must we close connection? (connection.Close() ??)
             }
 
             catch (Exception e)
@@ -82,6 +83,38 @@ namespace ContactDbLib
             }
 
             return contact;
+        }
+
+        public static bool UpdateContact(int id, string ssn, string firstName, string lastName)
+        {
+            string connectionString =
+                @"Server = (localdb)\MSSQLLocalDB; " +
+                "Database = ContactDb; " +
+                "Integrated Security = true";
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = connection.CreateCommand();
+
+            command.CommandText = "UPDATE Contact " +
+                                  "SET SSN = @ssn, FirstName = @firstName, LastName = @lastName " +
+                                  "WHERE ID = @id;";
+            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@ssn", ssn);
+            command.Parameters.AddWithValue("@firstName", firstName);
+            command.Parameters.AddWithValue("@lastName", lastName);
+
+            try
+            {
+                connection.Open();
+                using SqlDataReader reader = command.ExecuteReader();
+                reader.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
         }
     }
 }
