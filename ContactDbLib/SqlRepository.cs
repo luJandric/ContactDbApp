@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Channels;
 using Microsoft.Data.SqlClient;
 
@@ -82,6 +83,16 @@ namespace ContactDbLib
             }
 
             return contact;
+        }
+
+        private static List<Contact> contactList = new List<Contact>();
+
+        public static Contact ReadAllContacts(int id)
+        {
+            foreach (Contact contact in contactList)
+            {
+                contactList.Add(contact);
+            }
         }
     }
 }
