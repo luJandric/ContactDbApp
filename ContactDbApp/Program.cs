@@ -8,7 +8,6 @@ namespace ContactDbApp
     {
         static void Main(string[] args)
         {
-            SqlRepository.DeleteContact(2004);
         }
     }
 }
