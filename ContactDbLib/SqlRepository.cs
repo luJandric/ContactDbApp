@@ -18,7 +18,7 @@ namespace ContactDbLib
             int indentityId = 0;
 
             using SqlConnection connection = new(ConnectionString);
-            SqlCommand command = connection.CreateCommand();
+            using SqlCommand command = connection.CreateCommand();
 
             command.CommandText =
                 "INSERT INTO Contact " +
@@ -42,7 +42,6 @@ namespace ContactDbLib
                 Console.WriteLine(e.Message);
             }
 
-            connection.Close();
             return indentityId;
         }
 
@@ -51,7 +50,7 @@ namespace ContactDbLib
         {
 
             using SqlConnection connection = new(ConnectionString);
-            SqlCommand command = connection.CreateCommand();
+            using SqlCommand command = connection.CreateCommand();
 
             command.CommandText =
                 "SELECT * " +
@@ -64,7 +63,7 @@ namespace ContactDbLib
             try
             {
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                using SqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
                     contact.Id = (int) reader["ID"];
@@ -72,7 +71,6 @@ namespace ContactDbLib
                     contact.FirstName = reader["FirstName"].ToString();
                     contact.LastName = reader["LastName"].ToString();
                 }
-                reader.Close(); //Must we close connection? (connection.Close() ??)
             }
 
             catch (Exception e)
@@ -88,7 +86,7 @@ namespace ContactDbLib
         {
 
             using SqlConnection connection = new(ConnectionString);
-            SqlCommand command = connection.CreateCommand();
+            using SqlCommand command = connection.CreateCommand();
 
             command.CommandText = "UPDATE Contact " +
                                   "SET SSN = @ssn, FirstName = @firstName, LastName = @lastName " +
@@ -102,7 +100,6 @@ namespace ContactDbLib
             {
                 connection.Open();
                 using SqlDataReader reader = command.ExecuteReader();
-                reader.Close();
                 return true;
             }
             catch (Exception e)
@@ -117,7 +114,7 @@ namespace ContactDbLib
         {
 
             using SqlConnection connection = new(ConnectionString);
-            SqlCommand command = connection.CreateCommand();
+            using SqlCommand command = connection.CreateCommand();
 
             command.CommandText =
                 "DELETE FROM Contact " +
@@ -128,7 +125,6 @@ namespace ContactDbLib
             {
                 connection.Open();
                 using SqlDataReader reader = command.ExecuteReader();
-                reader.Close();
                 return true;
             }
             catch (Exception e)
