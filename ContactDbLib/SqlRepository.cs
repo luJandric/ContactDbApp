@@ -22,7 +22,7 @@ namespace ContactDbLib
             command.CommandText =
                 "INSERT INTO Contact " +
                 $"VALUES (@ssn, @firstName, @lastName)" +
-                $"SELECT SCOPE_IDENTITY() as IdentityId; ";
+                $"SELECT SCOPE_IDENTITY() as IdentityId;";
             command.Parameters.AddWithValue("@ssn", ssn);
             command.Parameters.AddWithValue("@firstName", firstName);
             command.Parameters.AddWithValue("@lastName", lastName);
@@ -75,6 +75,7 @@ namespace ContactDbLib
                     contact.FirstName = reader["FirstName"].ToString();
                     contact.LastName = reader["LastName"].ToString();
                 }
+                reader.Close(); //Must we close connection? (connection.Close() ??)
             }
 
             catch (Exception e)
@@ -85,13 +86,35 @@ namespace ContactDbLib
             return contact;
         }
 
-        private static List<Contact> contactList = new List<Contact>();
-
-        public static Contact ReadAllContacts(int id)
+        public static bool UpdateContact(int id, string ssn, string firstName, string lastName)
         {
-            foreach (Contact contact in contactList)
+            string connectionString =
+                @"Server = (localdb)\MSSQLLocalDB; " +
+                "Database = ContactDb; " +
+                "Integrated Security = true";
+
+            using SqlConnection connection = new(connectionString);
+            SqlCommand command = connection.CreateCommand();
+
+            command.CommandText = "UPDATE Contact " +
+                                  "SET SSN = @ssn, FirstName = @firstName, LastName = @lastName " +
+                                  "WHERE ID = @id;";
+            command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@ssn", ssn);
+            command.Parameters.AddWithValue("@firstName", firstName);
+            command.Parameters.AddWithValue("@lastName", lastName);
+
+            try
             {
-                contactList.Add(contact);
+                connection.Open();
+                using SqlDataReader reader = command.ExecuteReader();
+                reader.Close();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
             }
         }
     }
